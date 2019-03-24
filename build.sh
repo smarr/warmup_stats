@@ -92,5 +92,10 @@ if [ $? -eq 0 ]; then
         pip install --system --target "${PIP_TARGET_DIR}" "rpy2==2.8.5" || exit $?
     fi
 else
-    pip install --system --target "${PIP_TARGET_DIR}" "rpy2==2.8.5" || exit $?
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # --install-option="--prefix=" seems needed for homebrew
+        pip install --install-option="--prefix=" --target "${PIP_TARGET_DIR}" "rpy2==2.8.5" || exit $?
+    else
+        pip install --system --target "${PIP_TARGET_DIR}" "rpy2==2.8.5" || exit $?
+    fi
 fi
